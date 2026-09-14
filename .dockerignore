@@ -1,0 +1,39 @@
+# --- VCS / local env ---
+.git
+.venv
+venv
+*.egg-info
+.ruff_cache
+.mypy_cache
+.pytest_cache
+.vscode
+
+# --- python caches ---
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# --- secrets ---
+.env
+
+# --- large model weights / downloaded artifacts (mount or download at runtime) ---
+external/CosyVoice/pretrained_models/
+external/**/pretrained_models/
+external/**/*.pt
+external/**/*.pth
+external/**/*.onnx
+external/**/*.safetensors
+external/**/*.bin
+Step-Audio-2-mini
+Step-Audio-2-mini-Base
+Step-Audio-2-mini-Think
+
+# --- big vendored datasets not needed at runtime ---
+external/NLP-Movie_Scripts/
+
+# --- generated outputs ---
+results/
+data/audio/synthesized/
+var/
+*.wav
+*.pcm

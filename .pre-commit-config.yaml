@@ -1,0 +1,62 @@
+# Pre-commit hooks configuration
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+# Vendored third-party code lives under external/ and paper sources under
+# paper-*/ (LaTeX, bib, generated PDFs) — skip both for all hooks.
+exclude: '^(external/|paper-[^/]*/)'
+
+repos:
+
+  # Basic code quality checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      # Python syntax validation
+      - id: check-ast
+        description: "Validates Python syntax by parsing the AST"
+
+      # File system checks
+      - id: check-case-conflict
+        description: "Detects files with names that would conflict on case-insensitive filesystems"
+
+      # Configuration file validation
+      - id: check-yaml
+        description: "Validates YAML file syntax"
+        # Exclude kube-lib YAML templates (they contain {placeholders})
+        exclude: '^lib/kube-lib/src/kube_lib/yaml/'
+
+      # Git and merge checks
+      - id: check-merge-conflict
+        description: "Detects unresolved merge conflict markers"
+
+      # Security and debugging checks
+      - id: debug-statements
+        description: "Finds leftover debugging statements like pdb.set_trace()"
+      - id: detect-private-key
+        description: "Scans for accidentally committed private keys"
+
+      # File formatting
+      - id: trailing-whitespace
+        description: "Removes trailing whitespace from lines"
+        # In markdown two trailing whitespaces are used to denote line break,
+        # so we don't want to remove them.
+        exclude: '\.md$'
+      - id: end-of-file-fixer
+        description: "Ensures files end with a newline"
+      - id: mixed-line-ending
+        description: "Standardizes line endings to LF (Unix-style)"
+        args: ['--fix=lf']
+
+  # Python Code Quality: Ruff (linting and formatting)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.6
+    hooks:
+      # Ruff linter with auto-fix
+      - id: ruff-check
+        description: "Run Ruff linter with auto-fix"
+        args: [--fix]
+
+      # Ruff formatter
+      - id: ruff-format
+        description: "Run Ruff formatter"

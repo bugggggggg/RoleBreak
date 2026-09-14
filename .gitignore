@@ -1,0 +1,38 @@
+# eval outputs & built dataset artifacts (regenerated from configs)
+results/*
+!results/.gitkeep
+data/audio/synthesized/*
+!data/audio/synthesized/.gitkeep
+data/scenarios.jsonl
+annotation/labels*.jsonl
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+.ipynb_checkpoints/
+
+# secrets
+.env
+
+var/
+
+data/audio
+
+.gradio/
+
+# LaTeX build artifacts
+/paper*/build/
+
+data/character_bench/
+
+# vad_benchmark: the rendered viewer and its audio copies are regenerated per
+# run. Everything under scripts/vad_benchmark/data/ -- the gold labels and the
+# sweep results -- is committed.
+scripts/vad_benchmark/viz/

@@ -1,0 +1,15 @@
+FROM vllm/vllm-omni:v0.26.0
+
+# MiniCPM-o 4.5's Code2Wav stage (vllm-omni stage 2) imports its vocoder from
+# `stepaudio2.token2wav`, which lives in the `stepaudio2-minicpmo` package.
+# The base image does not ship it, so stage 2 dies during weight loading with:
+# "ModuleNotFoundError: No module named 'stepaudio2'".
+# vllm-omni does vendor an equivalent in-tree adapter
+# (minicpmo_4_5_token2wav.MiniCPMO45Token2wav) but only selects it on NPU.
+RUN pip install --no-cache-dir stepaudio2-minicpmo==0.1.1
+
+# Covo-Audio-Chat's code2wav stage (vllm-omni stage 1) solves the flow-matching
+# ODE with `torchdiffeq`, which the base image also does not ship. The stage
+# survives weight loading and dies in the warmup forward pass with:
+# "ImportError: Covo-Audio code2wav requires `torchdiffeq`."
+RUN pip install --no-cache-dir torchdiffeq==0.2.5
